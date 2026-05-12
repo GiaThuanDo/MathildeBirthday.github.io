@@ -376,9 +376,167 @@
     .env-flap  { height: 77px; }
     .glass-bg  { width: 240px; height: 240px; }
   }
+
+  /* ── GATE SCREENS ── */
+  .gate {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    background: linear-gradient(135deg, #fce4ec 0%, #fff0f5 40%, #fdf0fa 70%, #fce4ec 100%);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+    padding: 2rem;
+    text-align: center;
+  }
+  .gate.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(1.04);
+  }
+  .gate-emoji {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    animation: floatBob 3s ease-in-out infinite;
+  }
+  .gate-question {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    color: #c2185b;
+    text-shadow: 0 2px 14px rgba(194,24,91,0.2);
+    margin-bottom: 2.2rem;
+    line-height: 1.3;
+  }
+  .gate-buttons {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .gate-btn {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    border: 2px solid rgba(233,30,140,0.4);
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(12px);
+    color: #ad1457;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(220,60,130,0.18);
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+  }
+  .gate-btn:hover {
+    transform: scale(1.08);
+    background: rgba(255,230,242,0.9);
+    box-shadow: 0 10px 28px rgba(220,60,130,0.28);
+  }
+  .gate-btn.primary {
+    background: linear-gradient(135deg, #f48fb1, #e91e8c);
+    color: #fff;
+    border-color: transparent;
+  }
+  .gate-btn.primary:hover { background: linear-gradient(135deg, #f06292, #c2185b); }
+
+  /* ── NAUGHTY SCREEN ── */
+  #naughty-screen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    background: linear-gradient(135deg, #fce4ec 0%, #fff0f5 40%, #fdf0fa 70%, #fce4ec 100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+    text-align: center;
+    padding: 2rem;
+  }
+  #naughty-screen.show { opacity: 1; pointer-events: auto; }
+  .naughty-emoji { font-size: 4rem; margin-bottom: 1rem; animation: shake 0.5s ease infinite alternate; }
+  @keyframes shake {
+    0%   { transform: rotate(-8deg); }
+    100% { transform: rotate(8deg); }
+  }
+  .naughty-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    color: #c2185b;
+    margin-bottom: 1rem;
+  }
+  .naughty-sub {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: #e91e8c;
+    opacity: 0.7;
+    margin-top: 0.5rem;
+  }
+
+  /* ── Q2 LOVE RESPONSE ── */
+  .love-response {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    background: linear-gradient(135deg, #fce4ec 0%, #fff0f5 40%, #fdf0fa 70%, #fce4ec 100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.7s ease;
+    text-align: center;
+    padding: 2rem;
+  }
+  .love-response.show { opacity: 1; pointer-events: auto; }
+  .love-response-emoji { font-size: 4rem; margin-bottom: 1rem; animation: floatBob 2s ease-in-out infinite; }
+  .love-response-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: #ad1457;
+    text-shadow: 0 2px 14px rgba(173,20,87,0.2);
+  }
 </style>
 </head>
 <body>
+
+<!-- ── GATE 1: Are you Mathilde? ── -->
+<div class="gate" id="gate1">
+  <div class="gate-emoji">💌</div>
+  <p class="gate-question">Are you Mathilde? 🌸</p>
+  <div class="gate-buttons">
+    <button class="gate-btn primary" onclick="gate1Yes()">Yes, that's me! 🥰</button>
+    <button class="gate-btn" onclick="gate1No()">No…</button>
+  </div>
+</div>
+
+<!-- ── NAUGHTY SCREEN ── -->
+<div id="naughty-screen">
+  <div class="naughty-emoji">🚫</div>
+  <p class="naughty-text">You naughty, get out !!! 😤</p>
+  <p class="naughty-sub" style="font-size:0.85rem; opacity:0.55;">(Baby, stop being naughty !!!)</p>
+  <p class="naughty-sub">This letter is only for one special person 💅</p>
+</div>
+
+<!-- ── GATE 2: Do you love Nathan? ── -->
+<div class="gate hidden" id="gate2">
+  <div class="gate-emoji">💕</div>
+  <p class="gate-question">Do you love Nathan? 🥺</p>
+  <div class="gate-buttons">
+    <button class="gate-btn primary" onclick="gate2Answer('alot')">Yes, a lottttt 💗</button>
+    <button class="gate-btn primary" onclick="gate2Answer('heart')">With all my heart 💖</button>
+  </div>
+</div>
+
+<!-- ── LOVE RESPONSE ── -->
+<div class="love-response" id="love-response">
+  <div class="love-response-emoji" id="love-emoji">💖</div>
+  <p class="love-response-text" id="love-text">Aww…</p>
+</div>
 
 <canvas id="particles"></canvas>
 <div id="dimmer"></div>
@@ -559,6 +717,55 @@ function launchConfetti() {
     setTimeout(() => el.remove(), 4000);
   }
 }
+
+// ── GATE LOGIC ──
+function gate1Yes() {
+  const g1 = document.getElementById('gate1');
+  g1.classList.add('hidden');
+  setTimeout(() => {
+    document.getElementById('gate2').classList.remove('hidden');
+  }, 400);
+}
+
+function gate1No() {
+  const g1 = document.getElementById('gate1');
+  g1.classList.add('hidden');
+  const naughty = document.getElementById('naughty-screen');
+  naughty.classList.add('show');
+  // bounce the emoji chaotically
+  let bounces = 0;
+  const emoji = naughty.querySelector('.naughty-emoji');
+  const iv = setInterval(() => {
+    emoji.style.transform = `rotate(${(Math.random()-0.5)*40}deg) scale(${1+Math.random()*0.3})`;
+    if (++bounces > 20) clearInterval(iv);
+  }, 150);
+}
+
+function gate2Answer(type) {
+  const g2 = document.getElementById('gate2');
+  g2.classList.add('hidden');
+  const resp = document.getElementById('love-response');
+  const emoji = document.getElementById('love-emoji');
+  const text  = document.getElementById('love-text');
+
+  if (type === 'alot') {
+    emoji.textContent = '😍';
+    text.textContent  = 'I knew it… a lottttt! 💗';
+  } else {
+    emoji.textContent = '💖';
+    text.textContent  = 'With all your heart… just like me 🥹';
+  }
+
+  resp.classList.add('show');
+
+  // after 2.2s, fade out and reveal the letter scene
+  setTimeout(() => {
+    resp.style.transition = 'opacity 0.9s ease';
+    resp.style.opacity = '0';
+    setTimeout(() => { resp.style.display = 'none'; }, 900);
+  }, 2200);
+}
+
 </script>
 </body>
 </html>
